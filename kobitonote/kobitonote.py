@@ -112,6 +112,8 @@ def run_osascript(script, *args):
 ## Kobitoアイテムクラス
 class KobitoItem :
     def __init__(self, row, items_tags={}):
+        #Z_PK|Z_ENT|Z_OPT|ZPRIVATE|ZTEAM|ZCREATED_AT|ZPOSTED_AT|ZUPDATED_AT|
+        #ZUPDATED_AT_ON_QIITA|ZBODY|ZKEY|ZLINKED_FILE|ZRAW_BODY|ZTITLE|ZURL|ZUUID
         z_pk, z_ent, z_opt, zprivate,zteam, zcreated_at, zposted_at, zupdated_at, \
             zupdated_at_on_qiita, zbody, zkey, zlinked_file, zraw_body, ztitle, zurl, zuuid = row
         self._pk         = z_pk
@@ -130,11 +132,14 @@ class KobitoItem :
         self.tags        = items_tags[z_pk] if items_tags.has_key(z_pk) else []
 
     def save_in_evernote(self):
+        pre = "margin:0;padding:0;font:12px Monaco,monospace;margin:1em 0;font-size:12px;background-color:#eee;border:1px solid #ddd;padding:5px;line-height:1.5em;color:#444;overflow:auto;-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;"
+        code = "padding:0;font-size:12px;background-color:#eee;border:none;"
+
         title = self.title
         body = self.body \
             .replace("<!DOCTYPE HTML>\n", "") \
-            .replace('rel="stylesheet" href="',
-                     'rel="stylesheet" href="/Applications/Kobito.app/Contents/Resources/')
+            .replace(r'<code>','<code style="'+code+'">') \
+            .replace('<pre>','<pre style="'+pre+'">') 
         body = re.sub(r'[ \t]*<script[^\n]*</script>\n', r'', body)
         body = re.sub(r'  <body>\n<h1>[^\n]*</h1>', r'<body>', body)
 
