@@ -101,7 +101,7 @@ end tell
 
 ## AppleScriptを実行
 def run_osascript(script, *args):
-    p = subprocess.Popen(['arch', '-i386', 'osascript', '-e', script] +
+    p = subprocess.Popen(['arch', '-x86_64', 'osascript', '-e', script] +
                          [unicode(arg).encode('utf8') for arg in args],
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     err = p.wait()
@@ -112,8 +112,8 @@ def run_osascript(script, *args):
 ## Kobitoアイテムクラス
 class KobitoItem :
     def __init__(self, row, items_tags={}):
-        z_pk, z_ent, z_opt, zprivate, zcreated_at, zposted_at, zupdated_at, \
-            zbody, zlinked_file, zraw_body, ztitle, zurl, zuuid = row
+        z_pk, z_ent, z_opt, zprivate,zteam, zcreated_at, zposted_at, zupdated_at, \
+            zupdated_at_on_qiita, zbody, zkey, zlinked_file, zraw_body, ztitle, zurl, zuuid = row
         self._pk         = z_pk
         self._ent        = z_ent
         self._opt        = z_opt
